@@ -1,16 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 export const appDataSource = new DataSource({
-  // type: 'sqlite',
-  // database: 'db.sqlite',
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'riyaa@2967',
-  database: 'nestjs',
-  migrationsRun: true,
-
+  type: 'sqlite',
+  database: 'db.sqlite',
   entities:
     process.env.NODE_ENV === 'development'
       ? ['dist/src/**/*.entity.js']
@@ -22,31 +14,20 @@ export const appDataSource = new DataSource({
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(appDataSource, {
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'riyaa@2967',
-      database: 'nestjs',
-      migrationsRun: true,
-      // type: 'sqlite',
-      // database: 'db.sqlite',
-      // entities: ['dist/src/**/*.entity.js'],
+      type: 'sqlite',
+      database: 'db.sqlite',
+      entities: ['dist/src/**/*.entity.js'],
     });
     break;
+
   case 'production':
     Object.assign(appDataSource, {
       type: 'postgres',
       // url: process.env.DATABASE_URL,
-      // port: process.env.DB_PORT,
-      // username: process.env.DB_USERNAME,
-      // password: process.env.DB_PASSWORD,
-      // database: process.env.DB_NAME,
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'riyaa@2967',
-      database: 'nestjs',
+      port: process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       migrationsRun: true,
       entities: ['dist/src/**/*.entity.js'],
       ssl: {
