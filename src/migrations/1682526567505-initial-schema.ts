@@ -1,8 +1,8 @@
 const { MigrationInterface, QueryRunner, Table } = require('typeorm');
- 
-module.exports = class initialSchema1625847615203 {
-  name = 'initialSchema1625847615203';
- 
+
+module.exports = class InitialSchema1682526567505 {
+  name = 'InitialSchema1682526567505';
+
   async up(queryRunner) {
     await queryRunner.createTable(
       new Table({
@@ -31,7 +31,7 @@ module.exports = class initialSchema1625847615203 {
         ],
       }),
     );
- 
+
     await queryRunner.createTable(
       new Table({
         name: 'report',
@@ -56,7 +56,7 @@ module.exports = class initialSchema1625847615203 {
       }),
     );
   }
- 
+
   async down(queryRunner) {
     await queryRunner.query(`DROP TABLE ""report""`);
     await queryRunner.query(`DROP TABLE ""user""`);
