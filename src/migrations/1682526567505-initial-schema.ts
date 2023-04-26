@@ -1,18 +1,64 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-
-export class InitialSchema1682526567505 implements MigrationInterface {
-    name = 'InitialSchema1682526567505'
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "admin" boolean NOT NULL DEFAULT true, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "report" ("id" SERIAL NOT NULL, "approved" boolean NOT NULL DEFAULT false, "price" integer NOT NULL, "make" character varying NOT NULL, "model" character varying NOT NULL, "year" integer NOT NULL, "lng" integer NOT NULL, "lat" integer NOT NULL, "mileage" integer NOT NULL, "userId" integer, CONSTRAINT "PK_99e4d0bea58cba73c57f935a546" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`ALTER TABLE "report" ADD CONSTRAINT "FK_e347c56b008c2057c9887e230aa" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE "report" DROP CONSTRAINT "FK_e347c56b008c2057c9887e230aa"`);
-        await queryRunner.query(`DROP TABLE "report"`);
-        await queryRunner.query(`DROP TABLE "user"`);
-    }
-
-}
+const { MigrationInterface, QueryRunner, Table } = require('typeorm');
+ 
+module.exports = class initialSchema1625847615203 {
+  name = 'initialSchema1625847615203';
+ 
+  async up(queryRunner) {
+    await queryRunner.createTable(
+      new Table({
+        name: 'user',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
+          },
+          {
+            name: 'email',
+            type: 'varchar',
+          },
+          {
+            name: 'password',
+            type: 'varchar',
+          },
+          {
+            name: 'admin',
+            type: 'boolean',
+            default: 'true',
+          },
+        ],
+      }),
+    );
+ 
+    await queryRunner.createTable(
+      new Table({
+        name: 'report',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
+          },
+          { name: 'approved', type: 'boolean', default: 'false' },
+          { name: 'price', type: 'float' },
+          { name: 'make', type: 'varchar' },
+          { name: 'model', type: 'varchar' },
+          { name: 'year', type: 'integer' },
+          { name: 'lng', type: 'float' },
+          { name: 'lat', type: 'float' },
+          { name: 'mileage', type: 'integer' },
+          { name: 'userId', type: 'integer' },
+        ],
+      }),
+    );
+  }
+ 
+  async down(queryRunner) {
+    await queryRunner.query(`DROP TABLE ""report""`);
+    await queryRunner.query(`DROP TABLE ""user""`);
+  }
+};
